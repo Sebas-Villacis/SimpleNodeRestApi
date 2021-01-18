@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { validateUser } = require("../middlewares/validations");
 //const { validateJWT } = require("../middlewares/validate-jwt");
-const { authenticationRequired } = require("./middlewares/okta-auth");
+const { authenticationRequired } = require("../middlewares/okta-auth");
 const router = Router();
 
 const {

@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
 
-  // logout() {
-  //   this.oktaAuth.tokenManager.clear();
-  // }
+  logout() {
+    console.log('entra al logout del header');
+
+    this.oktaAuth.tokenManager.clear();
+  }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
@@ -11,27 +10,17 @@ export class AppComponent implements OnInit {
   title = 'adminpro';
   isAuthenticated: boolean;
 
-  constructor(public oktaAuth: OktaAuthService, public router: Router) {
-    // Subscribe to authentication state changes
+  constructor(public oktaAuth: OktaAuthService) {
     this.oktaAuth.$authenticationState.subscribe(
-      (isAuthenticated: boolean) => (this.isAuthenticated = isAuthenticated)
+      (isAuthenticated) => (this.isAuthenticated = isAuthenticated)
     );
   }
 
   async ngOnInit() {
-    // Get the authentication state for immediate use
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
 
-  login() {
-    this.oktaAuth.signInWithRedirect({
-      originalUri: '/dashboard',
-    });
-  }
-
-  async logout() {
-    // Terminates the session with Okta and removes current tokens.
-    await this.oktaAuth.signOut();
-    this.router.navigateByUrl('/');
+  logout() {
+    this.oktaAuth.signOut();
   }
 }

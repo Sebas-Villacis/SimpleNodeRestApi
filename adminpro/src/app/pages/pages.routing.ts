@@ -8,7 +8,6 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 
-import { OktaAuthGuard } from '@okta/okta-angular';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -17,13 +16,13 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-        canActivate: [OktaAuthGuard],
+
         data: { title: 'Dashboard' },
       },
       {
         path: 'progress',
         component: ProgressComponent,
-        canActivate: [OktaAuthGuard],
+
         data: { title: 'ProgressBar' },
       },
       {

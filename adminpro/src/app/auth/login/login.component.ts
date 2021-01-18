@@ -2,45 +2,59 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
+import config from '../../app.config';
+
+const DEFAULT_ORIGINAL_URI = window.location.origin;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  authService;
-  widget = new OktaSignIn({
-    el: '#okta-signin-container',
-    baseUrl: 'https://dev-2586981.okta.com',
-    authParams: {
-      pkce: true,
-    },
-    clientId: '0oa3vowlatFC5oa4L5d6',
-    redirectUri: 'http://localhost:4200/dashboard',
-  });
-
-  constructor(oktaAuth: OktaAuthService, router: Router) {
-    this.authService = oktaAuth;
-
-    // Show the widget when prompted, otherwise remove it from the DOM.
-    router.events.forEach((event) => {
-      if (event instanceof NavigationStart) {
-        switch (event.url) {
-          case '/login':
-            break;
-          case '/dashboard':
-            break;
-          default:
-            this.widget.remove();
-            break;
-        }
-      }
+  signIn: any;
+  constructor(public oktaAuth: OktaAuthService) {
+    this.signIn = new OktaSignIn({
+      /**
+       * Note: when using the Sign-In Widget for an OIDC flow, it still
+       * needs to be configured with the base URL for your Okta Org. Here
+       * we derive it from the given issuer for convenience.
+       */
+      baseUrl: config.oidc.issuer.split('/oauth2')[0],
+      clientId: config.oidc.clientId,
+      redirectUri: config.oidc.redirectUri,
+      i18n: {
+        en: {
+          'primaryauth.title': 'Sign in to Angular & Company',
+        },
+      },
+      authParams: {
+        issuer: config.oidc.issuer,
+      },
     });
   }
 
   ngOnInit() {
-    this.widget.showSignInAndRedirect().catch((err) => {
-      throw err;
-    });
+    this.signIn
+      .showSignInToGetTokens({
+        el: '#sign-in-widget',
+      })
+      .then((tokens) => {
+        // When navigating to a protected route, the route path will be saved as the `originalUri`
+        // If no `originalUri` has been saved, then redirect back to the app root
+        const originalUri = this.oktaAuth.getOriginalUri();
+        if (originalUri === DEFAULT_ORIGINAL_URI) {
+          this.oktaAuth.setOriginalUri('/dashboard');
+        }
+
+        // Remove the widget
+        this.signIn.remove();
+
+        // In this flow the redirect to Okta occurs in a hidden iframe
+        this.oktaAuth.handleLoginRedirect(tokens);
+      })
+      .catch((err) => {
+        // Typically due to misconfiguration
+        throw err;
+      });
   }
 }
