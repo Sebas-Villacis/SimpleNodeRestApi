@@ -1,14 +1,28 @@
-const { Router } = require('express');
-const { validateUser } = require("../validations");
+const { Router } = require("express");
+const { validateUser } = require("../middlewares/validations");
+//const { validateJWT } = require("../middlewares/validate-jwt");
+const { authenticationRequired } = require("./middlewares/okta-auth");
 const router = Router();
 
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require("../controllers/index.controller");
 
-const { getUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/index.controller');
-
-router.get('/users', getUsers);
-router.post('/users', validateUser, createUser);
-router.get('/users/:id', getUserById);
-router.put('/users/:id', validateUser, updateUser)
-router.delete('/users/:id', deleteUser);
+/*
+secure api endpoint with jwt
+router.get("/users", validateJWT, getUsers);
+router.get("/users/:id", [validateJWT], getUserById);
+router.put("/users/:id", [validateJWT, validateUser], updateUser);
+router.delete("/users/:id", [validateJWT], deleteUser);
+*/
+router.get("/users", [authenticationRequired], getUsers);
+router.post("/users", [authenticationRequired, validateUser], createUser);
+router.get("/users/:id", [authenticationRequired], getUserById);
+router.put("/users/:id", [authenticationRequired, validateUser], updateUser);
+router.delete("/users/:id", [authenticationRequired], deleteUser);
 
 module.exports = router;
