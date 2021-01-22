@@ -7,11 +7,15 @@ import { Grafica1Component } from './grafica1/grafica1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { HospitalComponent } from './maintenance/hospital/hospital.component';
+import { AuthGuard } from '../auth/auth.guard';
+import { DoctorsComponent } from './maintenance/doctors/doctors.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: PagesComponent,
+    //canActivate:[AuthGuard],
     children: [
       {
         path: '',
@@ -41,6 +45,18 @@ const routes: Routes = [
         data: { title: 'Promises' },
       },
       { path: 'rxjs', component: RxjsComponent, data: { title: 'RXJS' } },
+      //Maintenance
+
+      {
+        path: 'hospitals',
+        component: HospitalComponent,
+        data: { title: 'Maintenace of Hospitals' },
+      },
+      {
+        path: 'doctors',
+        component: DoctorsComponent,
+        data: { title: 'Doctors' },
+      },
     ],
   },
 ];
