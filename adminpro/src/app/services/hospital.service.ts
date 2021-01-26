@@ -27,18 +27,38 @@ export class HospitalService {
       );
   }
 
-  //   crearHospital(nombre: string) {
-  //     const url = `${base_url}/hospitales`;
-  //     return this.http.post(url, { nombre }, this.headers);
-  //   }
+  createHospital(name: string, accessToken: string) {
+    const url = `${base_url}/hospitals`;
+    return this.http.post(
+      url,
+      { name },
+      {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      }
+    );
+  }
 
-  //   actualizarHospital(_id: string, nombre: string) {
-  //     const url = `${base_url}/hospitales/${_id}`;
-  //     return this.http.put(url, { nombre }, this.headers);
-  //   }
+  updateHospital(id: string, name: string, accessToken: string) {
+    const url = `${base_url}/hospitals/${id}`;
+    return this.http.put(
+      url,
+      { name },
+      {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      }
+    );
+  }
 
-  //   borrarHospital(_id: string) {
-  //     const url = `${base_url}/hospitales/${_id}`;
-  //     return this.http.delete(url, this.headers);
-  //   }
+  deleteHospital(id: string, accessToken: string) {
+    const url = `${base_url}/hospitals/${id}`;
+    return this.http.delete(url, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
+  }
 }

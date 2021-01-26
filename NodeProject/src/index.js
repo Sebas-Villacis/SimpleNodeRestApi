@@ -16,6 +16,8 @@ app.use(morgan("dev"));
 
 //routes
 app.use(require("./routes/index"));
+app.use(require("./routes/hospital"));
+app.use(require("./routes/uploads"));
 app.use(require("./routes/auth"));
 
 //starting server

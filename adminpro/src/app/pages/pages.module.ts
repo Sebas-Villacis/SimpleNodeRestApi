@@ -13,7 +13,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { HospitalComponent } from './maintenance/hospital/hospital.component';
-import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+//import { DoctorsComponent } from './maintenance/doctors/doctors.component';
 import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { PipesModule } from '../pipes/pipes.module';
     PromisesComponent,
     RxjsComponent,
     HospitalComponent,
-    DoctorsComponent,
+    // DoctorsComponent,
   ],
   exports: [
     DashboardComponent,

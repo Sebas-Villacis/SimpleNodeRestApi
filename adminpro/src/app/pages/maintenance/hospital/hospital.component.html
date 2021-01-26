@@ -26,49 +26,65 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Hospitals {{ hospitals.length }}</h4>
-        <h6 class="card-subtitle">Hospital register in my application</h6>
+        <div class="row">
+          <div class="col-8">
+            <h4 class="card-title">Hospitals ({{ hospitals.length }})</h4>
+            <h6 class="card-subtitle">Hospitals register in my application</h6>
+          </div>
+
+          <div class="col">
+            <div class="text-right">
+              <button class="btn btn-primary" (click)="openSweetAlert()">
+                <i class="fa fa-hospital-o"></i>
+                New hospital
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th class="w100">Photo</th>
+                <th class="w100">Image</th>
                 <th>Name</th>
-                <th class="text-nowrap">Actions</th>
+                <th class="w100 text-nowrap">Acctions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let hospital of hospitals">
                 <td class="text-center">
                   <img
-                    [src]="hospital.img | image: hospitals"
+                    [src]="hospital.img | image: 'hospitals'"
                     [alt]="hospital.name"
-                    class="avatar cursor"
-                  />
+                    class="w100 cursor"
+                    (click)="openModal(hospital)"
+                  >
                 </td>
                 <td>
                   <input
                     type="text"
-                    name=""
-                    id=""
                     class="form-control"
-                    placeholder="Hospital name"
+                    placeholder="Nombre del hospital"
                     [(ngModel)]="hospital.name"
                   />
                 </td>
 
                 <td class="text-nowrap text-center">
                   <a
-                    href="#"
+                    (click)="saveUpdates(hospital)"
                     data-toggle="tooltip"
-                    data-original-title="Guardar"
+                    class="cursor"
+                    data-original-title="Guardar cambios"
                   >
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
+
                   <a
-                    href="#"
+                    (click)="deleteHospitals(hospital)"
                     data-toggle="tooltip"
                     data-original-title="Borrar"
+                    class="cursor"
                   >
                     <i class="fa fa-close text-danger"></i>
                   </a>
@@ -78,9 +94,9 @@
           </table>
         </div>
 
-        <button class="btn btn-secondary">Anteriores</button>
-        &nbsp;
-        <button class="btn btn-secondary">Siguientes</button>
+        <!-- <button class="btn btn-secondary">Anteriores</button>
+                &nbsp;
+                <button class="btn btn-secondary">Siguientes</button> -->
       </div>
     </div>
   </div>

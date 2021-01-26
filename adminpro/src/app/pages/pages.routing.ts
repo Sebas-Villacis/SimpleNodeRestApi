@@ -8,14 +8,14 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { HospitalComponent } from './maintenance/hospital/hospital.component';
-import { AuthGuard } from '../auth/auth.guard';
-import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+//import { DoctorsComponent } from './maintenance/doctors/doctors.component';
+import { OktaAuthGuard } from '@okta/okta-angular';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: PagesComponent,
-    //canActivate:[AuthGuard],
+    //canActivate: [OktaAuthGuard],
     children: [
       {
         path: '',
@@ -52,11 +52,11 @@ const routes: Routes = [
         component: HospitalComponent,
         data: { title: 'Maintenace of Hospitals' },
       },
-      {
-        path: 'doctors',
-        component: DoctorsComponent,
-        data: { title: 'Doctors' },
-      },
+      // {
+      //   path: 'doctors',
+      //   component: DoctorsComponent,
+      //   data: { title: 'Doctors' },
+      // },
     ],
   },
 ];
